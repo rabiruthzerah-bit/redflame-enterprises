@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maintenance · Redflame Enterprises</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #ffffff; font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; color: #1e1a18; line-height: 1.5; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
+
+    /* nav */
+    .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0 1rem; border-bottom: 1px solid rgba(180,30,20,0.15); flex-wrap: wrap; gap: 1rem; }
+    .logo { display: flex; align-items: center; gap: 0.5rem; }
+    .logo img { height: 58px; width: auto; filter: drop-shadow(0 0 6px rgba(180,30,20,0.1)); transition: 0.2s; }
+    .logo img:hover { filter: drop-shadow(0 0 14px rgba(180,30,20,0.2)); }
+    .nav-links { display: flex; gap: 1.8rem; font-weight: 500; font-size: 1rem; align-items: center; flex-wrap: wrap; }
+    .nav-links a { color: #3d3530; text-decoration: none; transition: 0.25s ease; border-bottom: 2px solid transparent; padding-bottom: 0.3rem; }
+    .nav-links a:hover { color: #b31b1b; border-bottom-color: #b31b1b; }
+    .nav-links a.active { color: #b31b1b; border-bottom-color: #b31b1b; }
+    .nav-cta { background: #b31b1b; color: #ffffff !important; padding: 0.5rem 1.8rem; border-radius: 40px; font-weight: 700; border-bottom: none !important; box-shadow: 0 4px 14px rgba(180,30,20,0.25); transition: 0.2s; }
+    .nav-cta:hover { background: #c92f16; box-shadow: 0 6px 24px rgba(180,30,20,0.35); transform: scale(1.02); color: #ffffff !important; }
+
+    /* page hero */
+    .page-hero { padding: 3.5rem 0 3rem; }
+    .hero-badge { background: rgba(180,30,20,0.06); border: 1px solid rgba(180,30,20,0.2); border-radius: 100px; padding: 0.4rem 2rem; font-size: 0.9rem; letter-spacing: 0.3px; color: #b31b1b; display: inline-flex; align-items: center; gap: 0.6rem; margin-bottom: 1.5rem; }
+    .page-hero h1 { font-size: 3.6rem; font-weight: 800; line-height: 1.08; letter-spacing: -1.5px; color: #1e1a18; max-width: 820px; margin-bottom: 1.2rem; }
+    .page-hero h1 .red { color: #b31b1b; }
+    .page-hero p { font-size: 1.15rem; color: #4a403a; max-width: 680px; margin-bottom: 2rem; line-height: 1.65; }
+    .page-hero-actions { display: flex; gap: 1.2rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    .divider { border: none; border-top: 1px solid rgba(180,30,20,0.1); margin: 0 0 3.5rem; }
+
+    /* buttons */
+    .btn-primary { background: #b31b1b; border: none; padding: 0.85rem 2.6rem; border-radius: 60px; font-weight: 700; font-size: 1.05rem; color: #ffffff; display: inline-flex; align-items: center; gap: 0.7rem; box-shadow: 0 6px 24px rgba(180,30,20,0.3); transition: 0.2s; text-decoration: none; }
+    .btn-primary:hover { background: #c92f16; box-shadow: 0 8px 32px rgba(180,30,20,0.4); transform: scale(1.02); }
+    .btn-outline { background: transparent; border: 2px solid rgba(180,30,20,0.4); padding: 0.85rem 2.2rem; border-radius: 60px; font-weight: 600; font-size: 1.05rem; color: #1e1a18; display: inline-flex; align-items: center; gap: 0.6rem; transition: 0.25s; text-decoration: none; }
+    .btn-outline:hover { border-color: #b31b1b; background: rgba(180,30,20,0.04); color: #b31b1b; }
+
+    /* section headers */
+    .section-title { font-size: 2.1rem; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.8rem; color: #1e1a18; }
+    .section-title i { color: #b31b1b; font-size: 1.9rem; }
+    .section-sub { color: #5a4f48; font-size: 1.1rem; margin-bottom: 2.2rem; max-width: 640px; }
+
+    /* service cards */
+    .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1.8rem; margin-bottom: 4rem; }
+    .service-card { background: #f7f5f3; border-radius: 28px; padding: 2.2rem 2rem; border: 1px solid #e6e0da; transition: 0.25s ease; }
+    .service-card:hover { border-color: rgba(180,30,20,0.35); box-shadow: 0 10px 30px rgba(180,30,20,0.07); transform: translateY(-4px); }
+    .card-icon { font-size: 2.2rem; color: #b31b1b; background: rgba(180,30,20,0.07); padding: 0.8rem; border-radius: 60px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
+    .service-card h3 { font-size: 1.2rem; font-weight: 700; color: #1e1a18; margin-bottom: 0.6rem; }
+    .service-card p { color: #5a4f48; font-size: 0.95rem; line-height: 1.65; margin-bottom: 1rem; }
+    .service-card ul { list-style: none; }
+    .service-card ul li { padding: 0.25rem 0; display: flex; align-items: flex-start; gap: 0.55rem; color: #3d3530; font-size: 0.92rem; }
+    .service-card ul li i { color: #b31b1b; font-size: 0.88rem; margin-top: 4px; flex-shrink: 0; }
+
+    /* extinguisher types */
+    .extinguisher-section { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 4rem; align-items: start; }
+    .ext-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 1.2rem; color: #1e1a18; }
+    .ext-title i { color: #b31b1b; margin-right: 0.5rem; }
+    .ext-list { list-style: none; }
+    .ext-list li { display: flex; align-items: center; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid #f0ece8; }
+    .ext-list li:last-child { border-bottom: none; }
+    .ext-badge { display: inline-block; width: 2.4rem; height: 2.4rem; border-radius: 50%; font-size: 0.72rem; font-weight: 700; color: #ffffff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; letter-spacing: 0.5px; }
+    .ext-badge.dry { background: #c0824a; }
+    .ext-badge.co2 { background: #3d3530; }
+    .ext-badge.wet { background: #2a6f4a; }
+    .ext-badge.foam { background: #d4a82d; }
+    .ext-badge.halogen { background: #5a3a8a; }
+    .ext-list li .ext-info strong { display: block; font-weight: 600; color: #1e1a18; font-size: 0.95rem; }
+    .ext-list li .ext-info span { color: #5a4f48; font-size: 0.88rem; }
+    .service-note { background: #f7f5f3; border-radius: 28px; padding: 2rem 2rem; border: 1px solid #e6e0da; }
+    .service-note h4 { font-size: 1.15rem; font-weight: 700; color: #1e1a18; margin-bottom: 0.8rem; }
+    .service-note h4 i { color: #b31b1b; margin-right: 0.4rem; }
+    .service-note ul { list-style: none; }
+    .service-note ul li { padding: 0.35rem 0; display: flex; align-items: flex-start; gap: 0.55rem; color: #3d3530; font-size: 0.95rem; }
+    .service-note ul li i { color: #b31b1b; font-size: 0.88rem; margin-top: 4px; flex-shrink: 0; }
+
+    /* credentials bar */
+    .highlight-bar { display: flex; flex-wrap: wrap; gap: 2rem; background: #f7f5f3; border-radius: 40px; padding: 2.5rem 2.8rem; margin: 0 0 4rem; border-left: 6px solid #b31b1b; align-items: center; justify-content: space-between; }
+    .hi-item { display: flex; align-items: center; gap: 1rem; font-size: 1rem; color: #1e1a18; }
+    .hi-item i { font-size: 1.9rem; color: #b31b1b; width: 2.4rem; text-align: center; }
+    .hi-item strong { font-weight: 600; display: block; }
+
+    /* CTA banner */
+    .cta-banner { background: linear-gradient(145deg, #f7f5f3, #f0ece7); border-radius: 48px; padding: 3rem 2.5rem; margin: 0 0 3.5rem; border: 1px solid rgba(180,30,20,0.12); display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .cta-banner h2 { font-size: 2.6rem; font-weight: 700; letter-spacing: -1px; color: #1e1a18; }
+    .cta-banner h2 i { color: #b31b1b; margin-right: 0.5rem; }
+    .cta-banner p { color: #4a403a; font-size: 1.15rem; max-width: 540px; margin: 0.8rem 0 2rem; line-height: 1.6; }
+    .cta-banner .btn-primary { padding: 1rem 3.2rem; font-size: 1.15rem; }
+
+    /* footer */
+    footer { border-top: 1px solid #e6e0da; padding: 2.5rem 0 2rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.5rem; }
+    .footer-socials { display: flex; gap: 1.8rem; font-size: 1.6rem; }
+    .footer-socials a { color: #5a4f48; transition: 0.2s; text-decoration: none; }
+    .footer-socials a:hover { color: #b31b1b; transform: scale(1.1); }
+    .footer-copy { color: #7a7266; font-size: 0.95rem; letter-spacing: 0.2px; display: flex; align-items: center; gap: 0.4rem; }
+
+    @media (max-width: 900px) { .extinguisher-section { grid-template-columns: 1fr; gap: 2rem; } .highlight-bar { flex-direction: column; align-items: flex-start; gap: 1.2rem; } }
+    @media (max-width: 700px) { .navbar { flex-direction: column; align-items: flex-start; } .nav-links { gap: 1rem; font-size: 0.95rem; } .page-hero h1 { font-size: 2.5rem; } .section-title { font-size: 1.75rem; } .cta-banner h2 { font-size: 2rem; } }
+    @media (max-width: 500px) { .container { padding: 0 1.2rem; } .page-hero h1 { font-size: 2rem; } .logo img { height: 46px; } }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <header class="navbar">
+    <div class="logo"><img src="logo.png" alt="Redflame Enterprises"></div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="design.html">Design</a>
+      <a href="products.html">Products</a>
+      <a href="installation.html">Installation</a>
+      <a href="testing.html">Testing</a>
+      <a href="maintenance.html" class="active">Maintenance</a>
+      <a href="tel:09062129330" class="nav-cta"><i class="fas fa-phone" style="margin-right:5px;"></i> Contact</a>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="hero-badge"><i class="fas fa-rotate"></i> Refilling · Servicing · Safety Reports</div>
+    <h1>Maintenance &amp;<br><span class="red">Servicing</span></h1>
+    <p>
+      Keep your fire protection systems operational and compliant year-round. We provide extinguisher refilling, periodic system servicing, spare parts supply, and rapid emergency repair response across the Bicol Region.
+    </p>
+    <div class="page-hero-actions">
+      <a href="tel:09062129330" class="btn-primary"><i class="fas fa-phone"></i> Schedule a Service Visit</a>
+      <a href="index.html" class="btn-outline"><i class="fas fa-arrow-left"></i> Back to Home</a>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section style="margin-bottom:0;">
+    <div class="section-title"><i class="fas fa-toolbox"></i> Maintenance Services</div>
+    <div class="section-sub">Everything you need to keep your fire safety systems ready — and compliant with BFP requirements — all year long.</div>
+    <div class="service-grid">
+
+      <div class="service-card">
+        <span class="card-icon"><i class="fas fa-fire-extinguisher"></i></span>
+        <h3>Extinguisher Refilling &amp; Recharging</h3>
+        <p>Professional refilling and recharging of all extinguisher types after discharge or expiry of agent charge. All refills include a hydrostatic test tag.</p>
+        <ul>
+          <li><i class="fas fa-check"></i> Dry powder (ABC), CO₂, wet chemical, foam</li>
+          <li><i class="fas fa-check"></i> All cylinder sizes from 1 kg to 50 kg</li>
+          <li><i class="fas fa-check"></i> Pressure test &amp; certification tag</li>
+          <li><i class="fas fa-check"></i> Walk-in or pickup-delivery service</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <span class="card-icon"><i class="fas fa-calendar-check"></i></span>
+        <h3>Annual System Servicing</h3>
+        <p>Scheduled annual maintenance visit covering inspection, testing, minor adjustments, and lubrication of all fire protection system components.</p>
+        <ul>
+          <li><i class="fas fa-check"></i> FDAS panel &amp; battery service</li>
+          <li><i class="fas fa-check"></i> Valve exercise &amp; lubrication</li>
+          <li><i class="fas fa-check"></i> Sprinkler head condition check</li>
+          <li><i class="fas fa-check"></i> Written service report issued</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <span class="card-icon"><i class="fas fa-file-invoice"></i></span>
+        <h3>Safety &amp; Compliance Reports</h3>
+        <p>Comprehensive maintenance logs and safety reports documenting all work performed — accepted by BFP for permit renewal and occupancy compliance.</p>
+        <ul>
+          <li><i class="fas fa-check"></i> Signed maintenance log book</li>
+          <li><i class="fas fa-check"></i> Deficiency tracking &amp; resolution</li>
+          <li><i class="fas fa-check"></i> BFP-acceptable documentation</li>
+          <li><i class="fas fa-check"></i> Digital records available on request</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <span class="card-icon"><i class="fas fa-screwdriver-wrench"></i></span>
+        <h3>Corrective Repairs</h3>
+        <p>Prompt repair or replacement of defective components identified during inspection or reported by building staff — prioritized by safety risk.</p>
+        <ul>
+          <li><i class="fas fa-check"></i> Detector &amp; sounder replacement</li>
+          <li><i class="fas fa-check"></i> Valve and fitting repairs</li>
+          <li><i class="fas fa-check"></i> Control panel troubleshooting</li>
+          <li><i class="fas fa-check"></i> Sprinkler head replacement</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <span class="card-icon"><i class="fas fa-boxes-stacked"></i></span>
+        <h3>Spare Parts Supply</h3>
+        <p>Stocked inventory of common replacement parts to minimize downtime — detectors, valve components, sprinkler heads, and alarm accessories.</p>
+        <ul>
+          <li><i class="fas fa-check"></i> OEM-compatible parts only</li>
+          <li><i class="fas fa-check"></i> Same-day availability for common items</li>
+          <li><i class="fas fa-check"></i> Sourcing service for special orders</li>
+          <li><i class="fas fa-check"></i> Installed or supplied only</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <span class="card-icon"><i class="fas fa-bolt"></i></span>
+        <h3>Emergency Response Service</h3>
+        <p>Rapid response for urgent system failures — partial or full system outages, accidental discharge cleanup, and post-incident restoration.</p>
+        <ul>
+          <li><i class="fas fa-check"></i> Priority scheduling for emergencies</li>
+          <li><i class="fas fa-check"></i> Accidental discharge cleanup</li>
+          <li><i class="fas fa-check"></i> System isolation &amp; restoration</li>
+          <li><i class="fas fa-check"></i> Temporary measures while parts arrive</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="extinguisher-section">
+    <div>
+      <p class="ext-title"><i class="fas fa-fire-extinguisher"></i> Extinguisher Types We Refill</p>
+      <ul class="ext-list">
+        <li>
+          <span class="ext-badge dry">DCP</span>
+          <div class="ext-info">
+            <strong>Dry Chemical Powder (ABC)</strong>
+            <span>Most common type — suitable for Class A, B, and C fires</span>
+          </div>
+        </li>
+        <li>
+          <span class="ext-badge co2">CO₂</span>
+          <div class="ext-info">
+            <strong>Carbon Dioxide</strong>
+            <span>Ideal for electrical equipment and enclosed spaces, leaves no residue</span>
+          </div>
+        </li>
+        <li>
+          <span class="ext-badge wet">WC</span>
+          <div class="ext-info">
+            <strong>Wet Chemical</strong>
+            <span>Specially formulated for commercial cooking fat fires (Class F/K)</span>
+          </div>
+        </li>
+        <li>
+          <span class="ext-badge foam">AF</span>
+          <div class="ext-info">
+            <strong>AFFF Foam</strong>
+            <span>Effective against flammable liquid spills and Class B fires</span>
+          </div>
+        </li>
+        <li>
+          <span class="ext-badge halogen">Clean</span>
+          <div class="ext-info">
+            <strong>Clean Agent (Halotron / FM200)</strong>
+            <span>Non-damaging agent for sensitive electronics and archives</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="service-note">
+      <h4><i class="fas fa-info-circle"></i> Before You Bring Your Extinguisher</h4>
+      <ul>
+        <li><i class="fas fa-check"></i> No appointment needed — walk-ins welcome at our Naga City office</li>
+        <li><i class="fas fa-check"></i> Turnaround time: same day for most units</li>
+        <li><i class="fas fa-check"></i> Each refilled unit gets a new pressure test, certification tag, and annual inspection sticker</li>
+        <li><i class="fas fa-check"></i> We also supply replacement O-rings, nozzles, and hose assemblies</li>
+        <li><i class="fas fa-check"></i> Bulk/fleet servicing available for hotels, hospitals, and government offices</li>
+        <li><i class="fas fa-check"></i> Pickup and delivery service available for large orders — call to arrange</li>
+      </ul>
+      <div style="margin-top: 1.5rem;">
+        <a href="tel:09062129330" class="btn-primary" style="font-size:0.95rem; padding: 0.7rem 1.8rem;"><i class="fas fa-phone"></i> Call to Arrange Pickup</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="highlight-bar">
+    <div class="hi-item"><i class="fas fa-rotate"></i><div><strong>Same-Day Refills</strong> Most extinguisher types</div></div>
+    <div class="hi-item"><i class="fas fa-truck"></i><div><strong>Pickup &amp; Delivery</strong> Available on request</div></div>
+    <div class="hi-item"><i class="fas fa-file-lines"></i><div><strong>Reports Provided</strong> Every service visit</div></div>
+    <div class="hi-item"><i class="fas fa-bolt"></i><div><strong>Emergency Response</strong> Priority scheduling</div></div>
+  </div>
+
+  <div class="cta-banner">
+    <h2><i class="fas fa-rotate"></i> Keep Your Systems Ready</h2>
+    <p>Contact us to schedule a maintenance visit, arrange extinguisher pickup, or set up an annual service contract for your facility.</p>
+    <a href="tel:09062129330" class="btn-primary"><i class="fas fa-phone"></i> Call Globe 0906-212-9330 / Smart 0919-503-3909 </a>
+  </div>
+
+  <footer>
+    <div class="footer-copy">
+      <img src="icon.png" width="20" height="auto" alt=""> 2026 Redflame Enterprises — Naga City
+    </div>
+    <div class="footer-socials">
+      <a href="https://www.facebook.com/Redflame.Enterprises/" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i></a>
+      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=redflameenterprises2009@gmail.com&su=Inquiry&body=Hello%20Redflame%20Enterprises,%0A%0AI%20would%20like%20to%20inquire%20about%20your%20services.%0A%0AName:%20%0AContact%20Number:%20%0ACompany:%20%0A%0AThank%20you." target="_blank" rel="noopener noreferrer"><i class="fas fa-envelope"></i></a>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
