@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Testing · Redflame Enterprises</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #ffffff; font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; color: #1e1a18; line-height: 1.5; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
+
+    /* nav */
+    .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0 1rem; border-bottom: 1px solid rgba(180,30,20,0.15); flex-wrap: wrap; gap: 1rem; }
+    .logo { display: flex; align-items: center; gap: 0.5rem; }
+    .logo img { height: 58px; width: auto; filter: drop-shadow(0 0 6px rgba(180,30,20,0.1)); transition: 0.2s; }
+    .logo img:hover { filter: drop-shadow(0 0 14px rgba(180,30,20,0.2)); }
+    .nav-links { display: flex; gap: 1.8rem; font-weight: 500; font-size: 1rem; align-items: center; flex-wrap: wrap; }
+    .nav-links a { color: #3d3530; text-decoration: none; transition: 0.25s ease; border-bottom: 2px solid transparent; padding-bottom: 0.3rem; }
+    .nav-links a:hover { color: #b31b1b; border-bottom-color: #b31b1b; }
+    .nav-links a.active { color: #b31b1b; border-bottom-color: #b31b1b; }
+    .nav-cta { background: #b31b1b; color: #ffffff !important; padding: 0.5rem 1.8rem; border-radius: 40px; font-weight: 700; border-bottom: none !important; box-shadow: 0 4px 14px rgba(180,30,20,0.25); transition: 0.2s; }
+    .nav-cta:hover { background: #c92f16; box-shadow: 0 6px 24px rgba(180,30,20,0.35); transform: scale(1.02); color: #ffffff !important; }
+
+    /* page hero */
+    .page-hero { padding: 3.5rem 0 3rem; }
+    .hero-badge { background: rgba(180,30,20,0.06); border: 1px solid rgba(180,30,20,0.2); border-radius: 100px; padding: 0.4rem 2rem; font-size: 0.9rem; letter-spacing: 0.3px; color: #b31b1b; display: inline-flex; align-items: center; gap: 0.6rem; margin-bottom: 1.5rem; }
+    .page-hero h1 { font-size: 3.6rem; font-weight: 800; line-height: 1.08; letter-spacing: -1.5px; color: #1e1a18; max-width: 820px; margin-bottom: 1.2rem; }
+    .page-hero h1 .red { color: #b31b1b; }
+    .page-hero p { font-size: 1.15rem; color: #4a403a; max-width: 680px; margin-bottom: 2rem; line-height: 1.65; }
+    .page-hero-actions { display: flex; gap: 1.2rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    .divider { border: none; border-top: 1px solid rgba(180,30,20,0.1); margin: 0 0 3.5rem; }
+
+    /* buttons */
+    .btn-primary { background: #b31b1b; border: none; padding: 0.85rem 2.6rem; border-radius: 60px; font-weight: 700; font-size: 1.05rem; color: #ffffff; display: inline-flex; align-items: center; gap: 0.7rem; box-shadow: 0 6px 24px rgba(180,30,20,0.3); transition: 0.2s; text-decoration: none; }
+    .btn-primary:hover { background: #c92f16; box-shadow: 0 8px 32px rgba(180,30,20,0.4); transform: scale(1.02); }
+    .btn-outline { background: transparent; border: 2px solid rgba(180,30,20,0.4); padding: 0.85rem 2.2rem; border-radius: 60px; font-weight: 600; font-size: 1.05rem; color: #1e1a18; display: inline-flex; align-items: center; gap: 0.6rem; transition: 0.25s; text-decoration: none; }
+    .btn-outline:hover { border-color: #b31b1b; background: rgba(180,30,20,0.04); color: #b31b1b; }
+
+    /* section headers */
+    .section-title { font-size: 2.1rem; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.8rem; color: #1e1a18; }
+    .section-title i { color: #b31b1b; font-size: 1.9rem; }
+    .section-sub { color: #5a4f48; font-size: 1.1rem; margin-bottom: 2.2rem; max-width: 640px; }
+
+    /* service cards */
+    .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1.8rem; margin-bottom: 4rem; }
+    .service-card { background: #f7f5f3; border-radius: 28px; padding: 2.2rem 2rem; border: 1px solid #e6e0da; transition: 0.25s ease; }
+    .service-card:hover { border-color: rgba(180,30,20,0.35); box-shadow: 0 10px 30px rgba(180,30,20,0.07); transform: translateY(-4px); }
+    .card-icon { font-size: 2.2rem; color: #b31b1b; background: rgba(180,30,20,0.07); padding: 0.8rem; border-radius: 60px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
+    .service-card h3 { font-size: 1.2rem; font-weight: 700; color: #1e1a18; margin-bottom: 0.6rem; }
+    .service-card p { color: #5a4f48; font-size: 0.95rem; line-height: 1.65; margin-bottom: 1rem; }
+    .service-card ul { list-style: none; }
+    .service-card ul li { padding: 0.25rem 0; display: flex; align-items: flex-start; gap: 0.55rem; color: #3d3530; font-size: 0.92rem; }
+    .service-card ul li i { color: #b31b1b; font-size: 0.88rem; margin-top: 4px; flex-shrink: 0; }
+
+    /* checklist section */
+    .checklist-section { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 4rem; align-items: start; }
+    .checklist-section h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 1.2rem; color: #1e1a18; }
+    .checklist-section h3 i { color: #b31b1b; margin-right: 0.5rem; }
+    .checklist { list-style: none; }
+    .checklist li { display: flex; align-items: flex-start; gap: 0.8rem; padding: 0.65rem 0; border-bottom: 1px solid #f0ece8; font-size: 0.97rem; color: #3d3530; }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist li .chk { width: 1.5rem; height: 1.5rem; border-radius: 50%; background: rgba(180,30,20,0.09); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+    .checklist li .chk i { font-size: 0.75rem; color: #b31b1b; }
+    .freq-box { background: #f7f5f3; border-radius: 28px; padding: 2rem; border: 1px solid #e6e0da; }
+    .freq-row { display: flex; justify-content: space-between; align-items: center; padding: 0.7rem 0; border-bottom: 1px solid #e6e0da; font-size: 0.95rem; }
+    .freq-row:last-child { border-bottom: none; }
+    .freq-row .sys-name { color: #1e1a18; font-weight: 500; }
+    .freq-badge { background: rgba(180,30,20,0.08); border: 1px solid rgba(180,30,20,0.2); color: #b31b1b; font-size: 0.82rem; font-weight: 600; padding: 0.2rem 0.8rem; border-radius: 100px; }
+
+    /* compliance box */
+    .compliance-box { background: linear-gradient(135deg, #f7f5f3 60%, #f0ece7); border-radius: 40px; padding: 2.8rem 3rem; border: 1px solid rgba(180,30,20,0.15); border-left: 6px solid #b31b1b; margin-bottom: 4rem; }
+    .compliance-box h3 { font-size: 1.6rem; font-weight: 700; color: #1e1a18; margin-bottom: 0.8rem; }
+    .compliance-box h3 i { color: #b31b1b; margin-right: 0.5rem; }
+    .compliance-box p { color: #4a403a; font-size: 1.05rem; line-height: 1.65; max-width: 780px; margin-bottom: 1.2rem; }
+    .compliance-tags { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .ctag { background: #ffffff; border: 1px solid #e6e0da; border-radius: 100px; padding: 0.3rem 1rem; font-size: 0.87rem; color: #3d3530; font-weight: 500; }
+
+    /* credentials bar */
+    .highlight-bar { display: flex; flex-wrap: wrap; gap: 2rem; background: #f7f5f3; border-radius: 40px; padding: 2.5rem 2.8rem; margin: 0 0 4rem; border-left: 6px solid #b31b1b; align-items: center; justify-content: space-between; }
+    .hi-item { display: flex; align-items: center; gap: 1rem; font-size: 1rem; color: #1e1a18; }
+    .hi-item i { font-size: 1.9rem; color: #b31b1b; width: 2.4rem; text-align: center; }
+    .hi-item strong { font-weight: 600; display: block; }
+
+    /* CTA banner */
+    .cta-banner { background: linear-gradient(145deg, #f7f5f3, #f0ece7); border-radius: 48px; padding: 3rem 2.5rem; margin: 0 0 3.5rem; border: 1px solid rgba(180,30,20,0.12); display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .cta-banner h2 { font-size: 2.6rem; font-weight: 700; letter-spacing: -1px; color: #1e1a18; }
+    .cta-banner h2 i { color: #b31b1b; margin-right: 0.5rem; }
+    .cta-banner p { color: #4a403a; font-size: 1.15rem; max-width: 540px; margin: 0.8rem 0 2rem; line-height: 1.6; }
+    .cta-banner .btn-primary { padding: 1rem 3.2rem; font-size: 1.15rem; }
+
+    /* footer */
+    footer { border-top: 1px solid #e6e0da; padding: 2.5rem 0 2rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.5rem; }
+    .footer-socials { display: flex; gap: 1.8rem; font-size: 1.6rem; }
+    .footer-socials a { color: #5a4f48; transition: 0.2s; text-decoration: none; }
+    .footer-socials a:hover { color: #b31b1b; transform: scale(1.1); }
+    .footer-copy { color: #7a7266; font-size: 0.95rem; letter-spacing: 0.2px; display: flex; align-items: center; gap: 0.4rem; }
+
+    @media (max-width: 900px) { .checklist-section { grid-template-columns: 1fr; gap: 2rem; } .highlight-bar { flex-direction: column; align-items: flex-start; gap: 1.2rem; } }
+    @media (max-width: 700px) { .navbar { flex-direction: column; align-items: flex-start; } .nav-links { gap: 1rem; font-size: 0.95rem; } .page-hero h1 { font-size: 2.5rem; } .section-title { font-size: 1.75rem; } .cta-banner h2 { font-size: 2rem; } }
+    @media (max-width: 500px) { .container { padding: 0 1.2rem; } .page-hero h1 { font-size: 2rem; } .logo img { height: 46px; } .compliance-box { padding: 2rem 1.5rem; } }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <header class="navbar">
+    <div class="logo"><img src="logo.png" alt="Redflame Enterprises"></div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="design.html">Design</a>
+      <a href="products.html">Products</a>
+      <a href="installation.html">Installation</a>
+      <a href="testing.html" class="active">Testing</a>
+      <a href="maintenance.html">Maintenance</a>
+      <a href="tel:09062129330" class="nav-cta"><i class="fas fa-phone" style="margin-right:5px;"></i> Contact</a>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="hero-badge"><i class="fas fa-flask"></i> Pressure Tests · Alarm Verification · Inspection</div>
+    <h1>Testing &amp;<br><span class="red">Inspection</span></h1>
+    <p>
+      Thorough testing and inspection services that verify every component of your fire protection systems performs exactly as designed — and meets all BFP and building code requirements.
+    </p>
+    <div class="page-hero-actions">
+      <a href="tel:09062129330" class="btn-primary"><i class="fas fa-phone"></i> Schedule an Inspection</a>
+      <a href="index.html" class="btn-outline"><i class="fas fa-arrow-left"></i> Back to Home</a>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section style="margin-bottom:0;">
+    <div class="section-title"><i class="fas fa-vials"></i> Testing Services</div>
+    <div class="section-sub">We conduct all required acceptance tests and periodic inspections, with full written reports issued after each visit.</div>
+    <div class="service-grid">
+
+      <div class="service-card">
+        <span class="card-icon"><i class="fas fa-gauge-high"></i></span>
+        <h3>Hydrostatic Pressure Testing</h3>
+        <p>Pressurize sprinkler and standpipe piping systems to verify structural integrity and confirm there are no leaks in fittings or pipe joints.</p>
+        <ul>
+          <li><i class="fas fa-check"></i> 200 psi (13.8 bar) test pressure</li>
+          <li><i class="fas fa-check"></i> 2-hour sustained duration</li>
+          <li><i class="fas fa-check"></i> Full leakage survey with documentation</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <span class="card-icon"><i class="fas fa-bell"></i></span>
+        <h3>Alarm System Functional Testing</h3>
+        <p>End-to-end functional verification of FDAS panels, detectors, manual call points, and notification devices — zone by zone.</p>
+        <ul>
+          <li><i class="fas fa-check"></i> Detector sensitivity &amp; response verification</li>
+          <li><i class="fas fa-check"></i> Manual call point &amp; abort station tests</li>
+          <li><i class="fas fa-check"></i> Panel fault &amp; trouble signal tests</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <span class="card-icon"><i class="fas fa-droplet"></i></span>
+        <h3>Sprinkler Flow &amp; Valve Tests</h3>
+        <p>Inspector's test valve and main drain flow tests to confirm system pressure, water supply adequacy, and alarm activation.</p>
+        <ul>
+          <li><i class="fas fa-check"></i> Inspector's test valve discharge</li>
+          <li><i class="fas fa-check"></i> Water flow alarm activation check</li>
+          <li><i class="fas fa-check"></i> Control valve tamper switch test</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <span class="card-icon"><i class="fas fa-eye"></i></span>
+        <h3>Visual Inspection</h3>
+        <p>Systematic visual survey of all accessible components to identify physical damage, obstructions, and non-conformances against the approved design.</p>
+        <ul>
+          <li><i class="fas fa-check"></i> Sprinkler head condition &amp; clearance</li>
+          <li><i class="fas fa-check"></i> Pipe hangers, supports, &amp; labels</li>
+          <li><i class="fas fa-check"></i> Extinguisher tags &amp; accessibility</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <span class="card-icon"><i class="fas fa-fire-extinguisher"></i></span>
+        <h3>Extinguisher Inspection</h3>
+        <p>Annual and monthly extinguisher inspections verifying charge, pressure, pin integrity, and condition — per BFP requirements.</p>
+        <ul>
+          <li><i class="fas fa-check"></i> Pressure gauge / weight check</li>
+          <li><i class="fas fa-check"></i> Pin, seal, &amp; label verification</li>
+          <li><i class="fas fa-check"></i> Placement &amp; signage check</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <span class="card-icon"><i class="fas fa-file-shield"></i></span>
+        <h3>Compliance Certification</h3>
+        <p>Issue test reports and compliance certificates required for building permits, BFP inspections, and occupancy renewals.</p>
+        <ul>
+          <li><i class="fas fa-check"></i> Signed test report with findings</li>
+          <li><i class="fas fa-check"></i> Deficiency list &amp; corrective actions</li>
+          <li><i class="fas fa-check"></i> Certificate of system compliance</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="checklist-section">
+    <div>
+      <h3><i class="fas fa-clipboard-check"></i> What We Inspect</h3>
+      <ul class="checklist">
+        <li><span class="chk"><i class="fas fa-check"></i></span> Fire alarm control panel indicators and battery</li>
+        <li><span class="chk"><i class="fas fa-check"></i></span> All smoke and heat detectors</li>
+        <li><span class="chk"><i class="fas fa-check"></i></span> Manual call points and pull stations</li>
+        <li><span class="chk"><i class="fas fa-check"></i></span> Horn / strobe and notification appliances</li>
+        <li><span class="chk"><i class="fas fa-check"></i></span> All sprinkler heads and pipe hangers</li>
+        <li><span class="chk"><i class="fas fa-check"></i></span> Control valves, check valves, and water flow switches</li>
+        <li><span class="chk"><i class="fas fa-check"></i></span> Fire pump assembly and jockey pump</li>
+        <li><span class="chk"><i class="fas fa-check"></i></span> Fire hose cabinets and hose reels</li>
+        <li><span class="chk"><i class="fas fa-check"></i></span> Fire extinguishers (all types)</li>
+        <li><span class="chk"><i class="fas fa-check"></i></span> Emergency lights and exit signs</li>
+        <li><span class="chk"><i class="fas fa-check"></i></span> Kitchen suppression system components</li>
+        <li><span class="chk"><i class="fas fa-check"></i></span> FM200 cylinder weight and pressure</li>
+      </ul>
+    </div>
+    <div>
+      <h3><i class="fas fa-calendar-days"></i> Recommended Inspection Frequency</h3>
+      <div class="freq-box">
+        <div class="freq-row"><span class="sys-name">Fire Extinguishers</span><span class="freq-badge">Monthly + Annual</span></div>
+        <div class="freq-row"><span class="sys-name">FDAS — Fire Alarm System</span><span class="freq-badge">Semi-Annual</span></div>
+        <div class="freq-row"><span class="sys-name">Sprinkler System Visual</span><span class="freq-badge">Quarterly</span></div>
+        <div class="freq-row"><span class="sys-name">Sprinkler Flow Test</span><span class="freq-badge">Annual</span></div>
+        <div class="freq-row"><span class="sys-name">Fire Hose Cabinets</span><span class="freq-badge">Annual</span></div>
+        <div class="freq-row"><span class="sys-name">Emergency Lighting</span><span class="freq-badge">Monthly + Annual</span></div>
+        <div class="freq-row"><span class="sys-name">FM200 Cylinder Weight</span><span class="freq-badge">Semi-Annual</span></div>
+        <div class="freq-row"><span class="sys-name">Kitchen Suppression</span><span class="freq-badge">Semi-Annual</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="compliance-box">
+    <h3><i class="fas fa-gavel"></i> Regulatory Compliance</h3>
+    <p>
+      Our inspections and test reports are prepared in accordance with the Philippine Fire Code (Republic Act 9514), Bureau of Fire Protection standards, and the applicable NFPA codes. Reports are acceptable for BFP occupancy permit renewal, insurance underwriting, and building inspections.
+    </p>
+    <div class="compliance-tags">
+      <span class="ctag">RA 9514 — Philippine Fire Code</span>
+      <span class="ctag">BFP Standards</span>
+      <span class="ctag">NFPA 25 (Sprinkler Inspection)</span>
+      <span class="ctag">NFPA 72 (Fire Alarm Testing)</span>
+      <span class="ctag">NFPA 10 (Extinguishers)</span>
+      <span class="ctag">Occupancy Permit Renewal</span>
+    </div>
+  </div>
+
+  <div class="highlight-bar">
+    <div class="hi-item"><i class="fas fa-file-lines"></i><div><strong>Full Reports</strong> Issued after each visit</div></div>
+    <div class="hi-item"><i class="fas fa-gavel"></i><div><strong>Code Compliant</strong> RA 9514 / NFPA</div></div>
+    <div class="hi-item"><i class="fas fa-calendar-check"></i><div><strong>Scheduled Service</strong> Annual contracts available</div></div>
+    <div class="hi-item"><i class="fas fa-certificate"></i><div><strong>Certified Team</strong> Licensed inspectors</div></div>
+  </div>
+
+  <div class="cta-banner">
+    <h2><i class="fas fa-flask"></i> Book a System Inspection</h2>
+    <p>Don't wait for a BFP notice. Schedule your inspection now and get a full compliance report within 24 hours.</p>
+    <a href="tel:09062129330" class="btn-primary"><i class="fas fa-phone"></i> Call Globe 0906-212-9330 / Smart 0919-503-3909 </a>
+  </div>
+
+  <footer>
+    <div class="footer-copy">
+      <img src="icon.png" width="20" height="auto" alt=""> 2026 Redflame Enterprises — Naga City
+    </div>
+    <div class="footer-socials">
+      <a href="https://www.facebook.com/Redflame.Enterprises/" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i></a>
+      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=redflameenterprises2009@gmail.com&su=Inquiry&body=Hello%20Redflame%20Enterprises,%0A%0AI%20would%20like%20to%20inquire%20about%20your%20services.%0A%0AName:%20%0AContact%20Number:%20%0ACompany:%20%0A%0AThank%20you." target="_blank" rel="noopener noreferrer"><i class="fas fa-envelope"></i></a>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
