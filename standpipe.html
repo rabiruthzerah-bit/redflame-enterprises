@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Standpipe Systems · Redflame Enterprises</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+
+    /* ── WET vs DRY COMPARISON ── */
+    .vs-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0;
+      margin-bottom: 2.5rem;
+      align-items: stretch;
+    }
+
+    .vs-card {
+      border-radius: 20px;
+      padding: 2.2rem 2rem;
+      border: 1px solid var(--border);
+    }
+
+    .vs-card.wet {
+      background: linear-gradient(145deg, #0a1f2e 0%, #0d2a3d 100%);
+      border-color: rgba(21,101,192,0.4);
+    }
+
+    .vs-card.dry {
+      background: linear-gradient(145deg, #1a1a1a 0%, #222 100%);
+      border-color: rgba(204,31,31,0.3);
+    }
+
+    .vs-card h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.3px;
+      margin-bottom: 0.4rem;
+    }
+
+    .vs-card.wet h3 { color: #64b5f6; }
+    .vs-card.dry h3 { color: #ef9a9a; }
+
+    .vs-card .vs-sub {
+      font-size: 0.85rem;
+      margin-bottom: 1.4rem;
+      font-style: italic;
+    }
+    .vs-card.wet .vs-sub { color: rgba(100,181,246,0.7); }
+    .vs-card.dry .vs-sub { color: rgba(239,154,154,0.7); }
+
+    .vs-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .vs-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    .vs-card.wet .vs-list li { color: rgba(255,255,255,0.8); }
+    .vs-card.dry .vs-list li { color: rgba(255,255,255,0.75); }
+
+    .vs-list li .vi {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.6rem;
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .vs-card.wet .vi { background: rgba(33,150,243,0.2); color: #64b5f6; }
+    .vs-card.dry .vi { background: rgba(204,31,31,0.15); color: #ef9a9a; }
+
+    /* VS badge in center */
+    .vs-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 1rem;
+    }
+
+    .vs-badge-circle {
+      width: 52px;
+      height: 52px;
+      background: var(--black);
+      border: 2px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--white);
+      flex-shrink: 0;
+    }
+
+    /* ── COMPONENTS PHOTO GRID ── */
+    .comp-photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .comp-photo-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+    }
+    .comp-photo-card:hover {
+      border-color: rgba(204,31,31,0.4);
+      box-shadow: 0 10px 30px rgba(204,31,31,0.08);
+      transform: translateY(-4px);
+    }
+
+    /* Photo slot */
+    .comp-photo-slot {
+      height: 170px;
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .comp-photo-slot img.real-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Placeholder label for photo slots */
+    .photo-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 500;
+      text-align: center;
+      padding: 1rem;
+    }
+    .photo-placeholder i { font-size: 2.5rem; color: rgba(204,31,31,0.25); }
+    .photo-placeholder span { color: rgba(204,31,31,0.5); font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .comp-photo-body {
+      padding: 1.1rem 1.2rem;
+    }
+    .comp-photo-body h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.3rem;
+    }
+    .comp-photo-body p {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    /* ── CODE / REQUIREMENT CARDS ── */
+    .req-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .req-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.6rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .req-card:hover {
+      border-color: rgba(204,31,31,0.3);
+      box-shadow: 0 8px 24px rgba(204,31,31,0.07);
+    }
+
+    .req-card h4 {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 1rem;
+      padding-bottom: 0.7rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .req-card h4 i { color: var(--red); }
+
+    .req-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .req-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.55rem;
+      font-size: 0.875rem;
+      color: var(--ink);
+      line-height: 1.5;
+    }
+    .req-list li .ri {
+      width: 18px; height: 18px;
+      background: rgba(204,31,31,0.08);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.55rem; color: var(--red);
+      flex-shrink: 0; margin-top: 1px;
+    }
+
+    /* ── WARN STRIP ── */
+    .warn-strip {
+      background: rgba(204,31,31,0.05);
+      border: 1.5px solid rgba(204,31,31,0.2);
+      border-radius: 20px;
+      padding: 1.6rem 2rem;
+      margin-bottom: 2.5rem;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
+    .warn-strip .warn-icon {
+      width: 52px; height: 52px;
+      background: rgba(204,31,31,0.1);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; color: var(--red); flex-shrink: 0;
+    }
+    .warn-strip h4 { font-size: 1rem; font-weight: 700; color: var(--red); margin-bottom: 0.7rem; }
+    .warn-strip .badge-row { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .warn-badge {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      background: rgba(204,31,31,0.08); border: 1px solid rgba(204,31,31,0.2);
+      border-radius: 100px; padding: 0.25rem 0.8rem;
+      font-size: 0.8rem; font-weight: 500; color: var(--red);
+    }
+
+    /* Photo guide note */
+    .photo-guide {
+      background: rgba(204,31,31,0.04);
+      border: 1.5px dashed rgba(204,31,31,0.3);
+      border-radius: 16px;
+      padding: 1.2rem 1.6rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+    }
+    .photo-guide i { color: var(--red); font-size: 1.2rem; margin-top: 2px; flex-shrink: 0; }
+    .photo-guide p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+    .photo-guide code {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 5px; padding: 0.12rem 0.45rem;
+      font-size: 0.8rem; color: var(--red); font-family: monospace;
+    }
+
+    @media (max-width: 860px) {
+      .vs-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .vs-divider { padding: 0; }
+      .vs-badge-circle { width: 44px; height: 44px; font-size: 0.9rem; }
+    }
+    @media (max-width: 600px) {
+      .warn-strip { grid-template-columns: 1fr; }
+      .comp-photo-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 400px) {
+      .comp-photo-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav class="navbar">
+  <div class="container">
+    <div class="navbar-inner">
+      <a href="index.html" class="logo"><img src="logo.png" alt="Redflame Enterprises"></a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="services.html" class="active">Services</a>
+        <a href="design.html">Design</a>
+        <a href="products.html">Products</a>
+        <a href="installation.html">Installation</a>
+        <a href="testing.html">Testing</a>
+        <a href="maintenance.html">Maintenance</a>
+        <a href="tel:09062129330" class="nav-cta"><i class="fas fa-phone"></i> Contact</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="services.html" class="active">Services</a>
+    <a href="design.html">Design</a>
+    <a href="products.html">Products</a>
+    <a href="installation.html">Installation</a>
+    <a href="testing.html">Testing</a>
+    <a href="maintenance.html">Maintenance</a>
+    <a href="tel:09062129330" class="nav-cta"><i class="fas fa-phone"></i> Call Now</a>
+  </div>
+</nav>
+
+<!-- ── PAGE HERO ── -->
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero-inner">
+      <div class="hero-eyebrow"><i class="fas fa-pipe-section"></i> NFPA 14 · PD 1096 · RA 9514 Compliant</div>
+      <h1>Wet &amp; Dry<br><span class="red">Standpipe Systems</span></h1>
+      <p>Providing fire departments with immediate water supply for fire suppression — required in all buildings 15 meters or higher under the National Building Code.</p>
+      <div class="page-hero-actions">
+        <a href="tel:09062129330" class="btn-primary"><i class="fas fa-phone"></i> Get a Free Consultation</a>
+        <a href="services.html" class="btn-ghost"><i class="fas fa-arrow-left"></i> All Services</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+<div class="container">
+
+  <!-- ── INTRO CALLOUT ── -->
+  <div class="callout reveal" style="margin-bottom:2.5rem; background:var(--black); border-radius:20px; padding:2rem 2.4rem; position:relative; overflow:hidden;">
+    <div style="position:absolute; inset:0; background:radial-gradient(ellipse 60% 80% at 100% 50%, rgba(204,31,31,0.12) 0%, transparent 65%); pointer-events:none;"></div>
+    <div style="position:relative; z-index:1; display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap;">
+      <div style="font-family:'Barlow Condensed',sans-serif; font-size:clamp(1.2rem,2.5vw,1.7rem); font-weight:800; text-transform:uppercase; color:var(--white); line-height:1.2; flex:1; min-width:220px;">
+        "Strong System. <span style="color:var(--red);">Fast Response.</span> Save Lives."
+      </div>
+      <div style="color:rgba(255,255,255,0.5); font-size:0.82rem; font-style:italic; flex-shrink:0;">— Redflame Enterprises</div>
+    </div>
+  </div>
+
+  <!-- ── WHAT IS A STANDPIPE ── -->
+  <div class="reveal" style="margin-bottom:2.5rem;">
+    <div class="section-eyebrow">Overview</div>
+    <h2 class="section-heading">What Is a <span class="red">Standpipe System?</span></h2>
+    <p class="section-sub">Standpipe systems are an essential part of a building's fire protection system, providing fire departments with immediate water supply for fire suppression — directly inside the building where it's needed most.</p>
+  </div>
+
+  <!-- ── WET VS DRY COMPARISON ── -->
+  <div class="reveal" style="margin-bottom:0.5rem;">
+    <div class="section-eyebrow">System Types</div>
+    <h2 class="section-heading">Wet <span class="red">vs</span> Dry</h2>
+  </div>
+
+  <div class="vs-grid reveal">
+
+    <!-- WET -->
+    <div class="vs-card wet">
+      <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:1rem;">
+        <div style="width:48px; height:48px; border-radius:14px; background:rgba(33,150,243,0.15); display:flex; align-items:center; justify-content:center; font-size:1.4rem; color:#64b5f6; flex-shrink:0;">
+          <i class="fas fa-droplet"></i>
+        </div>
+        <div>
+          <h3>Wet Standpipe</h3>
+          <div class="vs-sub">Pipes filled with water at all times</div>
+        </div>
+      </div>
+      <ul class="vs-list">
+        <li><div class="vi"><i class="fas fa-check"></i></div> For buildings with heated areas</li>
+        <li><div class="vi"><i class="fas fa-check"></i></div> Ready for immediate use</li>
+        <li><div class="vi"><i class="fas fa-check"></i></div> Faster water delivery</li>
+        <li><div class="vi"><i class="fas fa-check"></i></div> Lower maintenance risk from freezing</li>
+        <li><div class="vi"><i class="fas fa-check"></i></div> Most common type in the Philippines</li>
+      </ul>
+    </div>
+
+    <!-- VS divider -->
+    <div class="vs-divider">
+      <div class="vs-badge-circle">VS</div>
+    </div>
+
+    <!-- DRY -->
+    <div class="vs-card dry">
+      <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:1rem;">
+        <div style="width:48px; height:48px; border-radius:14px; background:rgba(204,31,31,0.12); display:flex; align-items:center; justify-content:center; font-size:1.4rem; color:#ef9a9a; flex-shrink:0;">
+          <i class="fas fa-wind"></i>
+        </div>
+        <div>
+          <h3>Dry Standpipe</h3>
+          <div class="vs-sub">Pipes filled with air or nitrogen</div>
+        </div>
+      </div>
+      <ul class="vs-list">
+        <li><div class="vi"><i class="fas fa-check"></i></div> For buildings with unheated areas (cold climates)</li>
+        <li><div class="vi"><i class="fas fa-check"></i></div> Water enters when a connection is opened</li>
+        <li><div class="vi"><i class="fas fa-check"></i></div> Equipped with dry alarm valve &amp; air compressor</li>
+        <li><div class="vi"><i class="fas fa-check"></i></div> Prevents pipes from freezing</li>
+        <li><div class="vi"><i class="fas fa-check"></i></div> Required for exposed/cold environments</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- ── GOVERNING CODES ── -->
+  <div class="reveal">
+    <div class="section-eyebrow">Compliance</div>
+    <h2 class="section-heading">Governing Codes <span class="red">&amp; Standards</span></h2>
+    <p class="section-sub">Redflame designs and installs standpipe systems fully compliant with all applicable Philippine laws and international fire protection standards.</p>
+  </div>
+
+  <div class="req-grid reveal">
+    <div class="req-card">
+      <h4><i class="fas fa-scale-balanced"></i> Philippine Laws</h4>
+      <ul class="req-list">
+        <li><div class="ri"><i class="fas fa-check"></i></div> National Building Code (PD 1096)</li>
+        <li><div class="ri"><i class="fas fa-check"></i></div> RA 9514 — Fire Code of the Philippines</li>
+        <li><div class="ri"><i class="fas fa-check"></i></div> 2019 Revised IRR of RA 9514</li>
+      </ul>
+    </div>
+    <div class="req-card">
+      <h4><i class="fas fa-certificate"></i> NFPA Standards</h4>
+      <ul class="req-list">
+        <li><div class="ri"><i class="fas fa-check"></i></div> NFPA 14 — Standpipe and Hose Systems</li>
+        <li><div class="ri"><i class="fas fa-check"></i></div> NFPA 24 — Private Fire Service Mains</li>
+        <li><div class="ri"><i class="fas fa-check"></i></div> NFPA 25 — Inspection, Testing &amp; Maintenance</li>
+      </ul>
+    </div>
+    <div class="req-card">
+      <h4><i class="fas fa-building"></i> Fire Code Requirements</h4>
+      <ul class="req-list">
+        <li><div class="ri"><i class="fas fa-check"></i></div> Required in all buildings 15 meters (49 ft) or higher</li>
+        <li><div class="ri"><i class="fas fa-check"></i></div> Measured from lowest BFP access to highest floor</li>
+        <li><div class="ri"><i class="fas fa-check"></i></div> 2½" (65mm) hose connections at each floor level</li>
+        <li><div class="ri"><i class="fas fa-check"></i></div> Fire Department Connection (FDC) at approved location</li>
+        <li><div class="ri"><i class="fas fa-check"></i></div> Installed per NFPA 14 and accepted engineering practice</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── SYSTEM COMPONENTS ── -->
+  <div class="reveal">
+    <div class="section-eyebrow">Equipment</div>
+    <h2 class="section-heading">System <span class="red">Components</span></h2>
+    <p class="section-sub">A complete standpipe system includes these essential components — all supplied and installed by Redflame Enterprises.</p>
+  </div>
+
+  <!-- Photo guide note -->
+  <div class="photo-guide reveal">
+    <i class="fas fa-camera"></i>
+    <p>To add real product photos, save images in an <code>images/</code> folder (e.g. <code>images/fdc.jpg</code>) and replace the placeholder in each card. Each card has a clearly marked photo slot.</p>
+  </div>
+
+  <div class="comp-photo-grid reveal">
+
+    <!-- FDC -->
+    <div class="comp-photo-card">
+      <div class="comp-photo-slot">
+        <!-- PHOTO SLOT: uncomment and set src to add a real photo -->
+        <!-- <img class="real-photo" src="images/fdc.jpg" alt="Fire Department Connection"> -->
+        <div class="photo-placeholder">
+          <i class="fas fa-plug-circle-bolt"></i>
+          <div>Fire Department Connection</div>
+          <span>Add photo: images/fdc.jpg</span>
+        </div>
+      </div>
+      <div class="comp-photo-body">
+        <h4>Fire Department Connection (FDC)</h4>
+        <p>External connection point where the BFP fire truck pumps water into the standpipe system to boost pressure during a fire.</p>
+      </div>
+    </div>
+
+    <!-- Riser Pipe -->
+    <div class="comp-photo-card">
+      <div class="comp-photo-slot">
+        <!-- <img class="real-photo" src="images/riser-pipe.jpg" alt="Riser Pipe"> -->
+        <div class="photo-placeholder">
+          <i class="fas fa-arrows-up-down"></i>
+          <div>Riser Pipe</div>
+          <span>Add photo: images/riser-pipe.jpg</span>
+        </div>
+      </div>
+      <div class="comp-photo-body">
+        <h4>Riser Pipe</h4>
+        <p>Vertical pipe running through the building's floors, carrying water from the ground-level supply up to each floor's hose connection.</p>
+      </div>
+    </div>
+
+    <!-- Hose Connection -->
+    <div class="comp-photo-card">
+      <div class="comp-photo-slot">
+        <!-- <img class="real-photo" src="images/hose-connection.jpg" alt="Hose Connection"> -->
+        <div class="photo-placeholder">
+          <i class="fas fa-link"></i>
+          <div>Hose Connection</div>
+          <span>Add photo: images/hose-connection.jpg</span>
+        </div>
+      </div>
+      <div class="comp-photo-body">
+        <h4>Hose Connection</h4>
+        <p>2½" (65mm) outlet at each floor level where fire hoses are connected. Provides firefighters direct water access on every floor.</p>
+      </div>
+    </div>
+
+    <!-- Fire Hose Cabinet -->
+    <div class="comp-photo-card">
+      <div class="comp-photo-slot">
+        <!-- <img class="real-photo" src="images/hose-cabinet-standpipe.jpg" alt="Fire Hose Cabinet"> -->
+        <div class="photo-placeholder">
+          <i class="fas fa-box-archive"></i>
+          <div>Fire Hose Cabinet</div>
+          <span>Add photo: images/hose-cabinet-standpipe.jpg</span>
+        </div>
+      </div>
+      <div class="comp-photo-body">
+        <h4>Fire Hose Cabinet</h4>
+        <p>Wall-mounted cabinet housing the fire hose and nozzle at each floor. Provides occupants and firefighters easy access to hose equipment.</p>
+      </div>
+    </div>
+
+    <!-- Fire Hose 2.5" -->
+    <div class="comp-photo-card">
+      <div class="comp-photo-slot">
+        <!-- <img class="real-photo" src="images/fire-hose-65mm.jpg" alt="2.5 inch Fire Hose"> -->
+        <div class="photo-placeholder">
+          <i class="fas fa-circle-nodes"></i>
+          <div>Fire Hose 2½" (65mm)</div>
+          <span>Add photo: images/fire-hose-65mm.jpg</span>
+        </div>
+      </div>
+      <div class="comp-photo-body">
+        <h4>Fire Hose 2½" (65mm)</h4>
+        <p>Heavy-duty 65mm fire hose for high-volume water delivery. Used by BFP firefighters for major fire suppression operations inside buildings.</p>
+      </div>
+    </div>
+
+    <!-- Landing Valve -->
+    <div class="comp-photo-card">
+      <div class="comp-photo-slot">
+        <!-- <img class="real-photo" src="images/landing-valve.jpg" alt="Landing Valve"> -->
+        <div class="photo-placeholder">
+          <i class="fas fa-gear"></i>
+          <div>Landing Valve (Angle Valve)</div>
+          <span>Add photo: images/landing-valve.jpg</span>
+        </div>
+      </div>
+      <div class="comp-photo-body">
+        <h4>Landing Valve (Angle Valve)</h4>
+        <p>Control valve at each floor's hose connection point. Opens to release pressurized water into the hose — allows controlled water flow during firefighting.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── CONSEQUENCE STRIP ── -->
+  <div class="warn-strip reveal">
+    <div class="warn-icon"><i class="fas fa-triangle-exclamation"></i></div>
+    <div>
+      <h4>Buildings 15m or Higher Without a Standpipe System Risk:</h4>
+      <div class="badge-row">
+        <span class="warn-badge"><i class="fas fa-xmark"></i> Failed BFP Inspection</span>
+        <span class="warn-badge"><i class="fas fa-xmark"></i> No Occupancy Permit</span>
+        <span class="warn-badge"><i class="fas fa-xmark"></i> No FSIC</span>
+        <span class="warn-badge"><i class="fas fa-xmark"></i> Admin Penalties</span>
+        <span class="warn-badge"><i class="fas fa-xmark"></i> Fire Liability</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CREDENTIALS ── -->
+  <div class="highlight-bar reveal">
+    <div class="hi-item"><i class="fas fa-certificate"></i><div><strong>PCAB Licensed</strong> Fire Protection works</div></div>
+    <div class="hi-item"><i class="fas fa-medal"></i><div><strong>ISO 9001:2015</strong> Quality aligned</div></div>
+    <div class="hi-item"><i class="fas fa-shield-halved"></i><div><strong>NFPA 14 Compliant</strong> RA 9514 / PD 1096</div></div>
+    <div class="hi-item"><i class="fas fa-calendar-check"></i><div><strong>Since 2009</strong> 15+ years Bicol Region</div></div>
+  </div>
+
+  <!-- ── CTA ── -->
+  <div class="cta-banner reveal">
+    <h2>Need a Standpipe System <span class="red">Installed?</span></h2>
+    <p>Redflame Enterprises handles design, supply, installation, testing, and maintenance of wet and dry standpipe systems across the Bicol Region.</p>
+    <a href="tel:09062129330" class="btn-primary"><i class="fas fa-phone"></i> Call Globe 0906-212-9330 / Smart 0919-503-3909</a>
+  </div>
+
+</div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-copy"><img src="icon.png" width="18" alt=""> &copy; 2026 Redflame Enterprises — Naga City</div>
+      <div class="footer-socials">
+        <a href="https://www.facebook.com/Redflame.Enterprises/" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i></a>
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=redflameenterprises2009@gmail.com&su=Inquiry%3A%20Standpipe%20System&body=Hello%20Redflame%20Enterprises%2C%0A%0AI%20would%20like%20to%20inquire%20about%20your%20Standpipe%20System%20services.%0A%0ABuilding%20type%3A%20%0ANumber%20of%20floors%3A%20%0ALocation%3A%20%0AContact%20number%3A%20%0A%0AThank%20you." target="_blank" rel="noopener noreferrer"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
